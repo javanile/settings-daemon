@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -e
+
+echo "Starting settings-daemon..."
+
+
+config_file=/etc/settings-daemon.toml
+
+config_file=/etc/settings-daemon.toml
+
+

@@ -1,0 +1,9 @@
+
+
+
+
+[duplicati]
+driver = "duplicati-api"
+url = "http://192.168.144.20:8200"
+
+
