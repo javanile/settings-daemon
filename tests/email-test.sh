@@ -13,7 +13,7 @@ cat tpl/email.html | s-nail -v \
   -S "smtp-auth-password=${SETTINGS_DAEMON_SMTP_PASSWORD}" \
   -S ssl-verify=ignore \
   -S nss-config-dir=~/.certs \
-  -s "subject line" \
+  -s "[BACKUP] Settings Daemon" \
   -M "text/html" \
   -a tests/fixtures/attachment.zip \
   info.francescobianco@gmail.com
