@@ -3,7 +3,7 @@ set -e
 
 source .env
 
-cat tpl/email.html | s-nail -v \
+s-nail -v \
   -S smtp-use-starttls \
   -S ssl-verify=ignore \
   -S smtp-auth=login \
@@ -16,4 +16,5 @@ cat tpl/email.html | s-nail -v \
   -s "[BACKUP] Settings Daemon: Ufficio" \
   -M "text/html" \
   -a tests/fixtures/attachment.zip \
-  info.francescobianco@gmail.com
+  info.francescobianco@gmail.com \
+  < assets/html/email.html
