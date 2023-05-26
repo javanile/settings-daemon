@@ -6,7 +6,7 @@ username = ""
 password = ""
 
 [duplicati]
-driver = "duplicati-api"
+driver = "duplicati"
 url = "http://192.168.144.20:8200"
 
 

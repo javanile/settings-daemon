@@ -3,4 +3,4 @@
 lib/duplicati-client/
 tmp/
 .env
-
+settings-daemon-secrets.toml
