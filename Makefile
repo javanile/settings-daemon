@@ -14,3 +14,6 @@ test-duplicati: fix-permissions
 
 test-email: fix-permissions
 	@bash tests/email-test.sh
+
+test-config:
+	@bash tests/config-test.sh

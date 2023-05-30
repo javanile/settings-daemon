@@ -2,5 +2,6 @@
 .vscode/
 lib/duplicati-client/
 tmp/
+bin/duc
 .env
 settings-daemon-secrets.toml
