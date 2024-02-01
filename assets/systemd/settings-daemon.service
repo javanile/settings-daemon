@@ -4,7 +4,7 @@ Description=settings-daemon
 [Service]
 User=root
 WorkingDirectory=/opt/settings-daemon
-ExecStart=ls
+ExecStart=echo "Hello World!"
 Restart=always
 RestartSec=3
 

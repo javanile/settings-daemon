@@ -1,0 +1,11 @@
+[Unit]
+Description="Run settings-daemon.service 5min after boot and every 24 hours relative to activation time"
+
+[Timer]
+OnBootSec=5
+OnUnitActiveSec=20
+OnCalendar=Mon..Fri *-*-* 10:00:*
+Unit=settings-daemon.service
+
+[Install]
+WantedBy=multi-user.target
