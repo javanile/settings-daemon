@@ -28,3 +28,6 @@ test-config:
 test-ubuntu:
 	@bash tests/ubuntu-test.sh
 
+test-parse-conf:
+	@bash tests/parse-conf-test.sh
+
