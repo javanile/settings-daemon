@@ -3,5 +3,7 @@ version: '3'
 services:
   ubuntu:
     build: ubuntu
+    privileged: true
     volumes:
       - ../../:/opt/settings-daemon
+      - /usr/local/bin/systemctl:/usr/local/bin/systemctl

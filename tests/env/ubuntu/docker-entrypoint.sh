@@ -2,7 +2,7 @@
 set -e
 
 ## Start SystemD daemon
-/lib/systemd/systemd --system &
+systemctl --help
 
 cd /opt/settings-daemon
 make install
