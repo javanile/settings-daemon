@@ -3,7 +3,7 @@ ROOT_DIR := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
 install:
 	@cp assets/service/settings-daemon.service /etc/systemd/system/
-	@systemctl daemon-reload
+	#@systemctl daemon-reload
 	@systemctl enable settings-daemon.service
 
 install-duplicati-client:

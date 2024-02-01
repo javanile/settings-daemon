@@ -6,4 +6,3 @@ services:
     privileged: true
     volumes:
       - ../../:/opt/settings-daemon
-      - /usr/local/bin/systemctl:/usr/local/bin/systemctl
