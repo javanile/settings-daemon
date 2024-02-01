@@ -6,8 +6,8 @@ echo "Starting settings-daemon..."
 
 #config_file=/etc/settings-daemon.toml
 
-config_file=tests/fixtures/settings-daemon.toml
-config_secret_file=tests/fixtures/settings-daemon-secrets.toml
+config_file=tests/fixtures/settings-daemon.conf
+config_secrets_file=tests/fixtures/settings-daemon.secrets
 
 process_service() {
   echo "Process: $1 $2"
