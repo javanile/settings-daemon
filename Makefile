@@ -27,3 +27,4 @@ test-config:
 
 test-ubuntu:
 	@bash tests/ubuntu-test.sh
+

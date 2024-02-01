@@ -13,59 +13,6 @@ process_service() {
   echo "Process: $1 $2"
 }
 
-send_email() {
-  s-nail -v \
-    -S smtp-use-starttls \
-    -S ssl-verify=ignore \
-    -S smtp-auth=login \
-    -S smtp=smtp://smtp.gmail.com:587 \
-    -S from="javanile.develop@gmail.com" \
-    -S smtp-auth-user=javanile.develop@gmail.com \
-    -S "smtp-auth-password=${SETTINGS_DAEMON_SMTP_PASSWORD}" \
-    -S ssl-verify=ignore \
-    -S nss-config-dir=~/.certs \
-    -s "[BACKUP] Settings Daemon: Ufficio" \
-    -M "text/html" \
-    -a tests/fixtures/attachment.zip \
-    info.francescobianco@gmail.com \
-    < assets/html/email.html
-}
-
-newline=$'\n'
-while IFS= read line || [[ -n "${line}" ]]; do
-  line="${line#"${line%%[![:space:]]*}"}"
-  line="${line%"${line##*[![:space:]]}"}"
-  line_number=$((line_number + 1))
-  [[ -z "${line}" ]] && continue
-  [[ "${line::1}" == "#" ]] && continue
-  echo "L: $line"
-  case $line in
-    \[[a-z]*\])
-      [ -n "$service" ] && process_service "$service" "$service_args"
-      service=$(echo "$line" | tr -d '[]')
-      service_args=
-      ;;
-    [a-z]*)
-      case $service in
-        smtp)
-          field=$(echo "$line" | cut -d'=' -f1 | xargs | awk '{ print toupper($0) }')
-          value=$(echo "$line" | cut -d'=' -f2 | xargs)
-          eval "SETTINGS_DAEMON_SMTP_${field}=\$value"
-          ;;
-        *)
-          field=$(echo "$line" | cut -d'=' -f1 | xargs | tr '-' '_')
-          value=$(echo "$line" | cut -d'=' -f2 | xargs)
-          service_args="${service_args}${field}=${value}${newline}"
-          echo "LLL"
-          ;;
-      esac
-      ;;
-    *)
-      ;;
-  esac
-  #echo "L: $line"
-done < "$config_file"
-
 [ -n "$service" ] && process_service "$service" "$service_args"
 
 #send_email
