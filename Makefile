@@ -32,4 +32,4 @@ test-parse-conf:
 	@bash tests/parse-conf-test.sh
 
 test-run:
-	@bash -x tests/run-test.sh
+	@bash tests/run-test.sh
