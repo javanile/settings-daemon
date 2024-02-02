@@ -9,10 +9,4 @@ echo "Starting settings-daemon..."
 config_file=tests/fixtures/settings-daemon.conf
 config_secrets_file=tests/fixtures/settings-daemon.secrets
 
-process_service() {
-  echo "Process: $1 $2"
-}
-
-[ -n "$service" ] && process_service "$service" "$service_args"
-
 #send_email

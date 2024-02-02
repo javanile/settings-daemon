@@ -1,6 +1,8 @@
 
 
 parse_conf() {
+local config_file
+config_file=$1
 
     newline=$'\n'
     while IFS= read line || [[ -n "${line}" ]]; do
@@ -36,5 +38,8 @@ parse_conf() {
       esac
       #echo "L: $line"
     done < "$config_file"
+
+
+[ -n "$service" ] && process_service "$service" "$service_args"
 
 }
