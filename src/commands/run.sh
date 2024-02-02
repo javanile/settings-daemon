@@ -1,6 +1,6 @@
 
 settings_daemon_run() {
-parse_conf "${SETTINGS_DAEMON_CONFIG}"
+settings_daemon_parse_conf "${SETTINGS_DAEMON_CONFIG}"
 
 SETTINGS_DAEMON_BUILD=build
 

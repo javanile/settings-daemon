@@ -1,10 +1,9 @@
+#!/bin/bash
+settings_daemon_parse_conf(){
 
-
-parse_conf() {
 local config_file
 config_file=$1
-
-    newline=$'\n'
+newline=$'\n'
     while IFS= read line || [[ -n "${line}" ]]; do
       line="${line#"${line%%[![:space:]]*}"}"
       line="${line%"${line##*[![:space:]]}"}"
@@ -43,3 +42,4 @@ config_file=$1
 [ -n "$service" ] && process_service "$service" "$service_args"
 
 }
+
