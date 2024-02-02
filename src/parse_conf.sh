@@ -18,12 +18,12 @@ config_file=$1
           service=$(echo "$line" | tr -d '[]')
           service_args=
           ;;
-        [a-z]*)
+        [a-z_-]*)
           case $service in
-            smtp)
+            settings-daemon)
               field=$(echo "$line" | cut -d'=' -f1 | xargs | awk '{ print toupper($0) }')
               value=$(echo "$line" | cut -d'=' -f2 | xargs)
-              eval "SETTINGS_DAEMON_SMTP_${field}=\$value"
+              eval "SETTINGS_DAEMON_${field}=\$value"
               ;;
             *)
               field=$(echo "$line" | cut -d'=' -f1 | xargs | tr '-' '_')

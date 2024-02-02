@@ -31,3 +31,5 @@ test-ubuntu:
 test-parse-conf:
 	@bash tests/parse-conf-test.sh
 
+test-run:
+	@bash tests/run-test.sh
