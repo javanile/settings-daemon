@@ -18,7 +18,6 @@ settings_daemon_parse_conf() {
 
   local field
   local value
-  local state
 
   newline=$'\n'
   config_file=$1
@@ -31,57 +30,53 @@ settings_daemon_parse_conf() {
 
   field=
   value=
-  state=
 
-  sed '$a\[end]' "$config_file" | while IFS= read -r line; do
+  sed '$a\[end]' "${config_file}" | while IFS= read -r line; do
     line="${line#"${line%%[![:space:]]*}"}"
     line="${line%"${line##*[![:space:]]}"}"
     line_number=$((line_number + 1))
     [[ -z "${line}" ]] && continue
     [[ "${line::1}" == "#" ]] && continue
 
-    echo "L: $line - F: $field - S: $service"
+    echo "L: $line - S: $service - F: $field"
 
     case "${line}" in
-      \[[a-z]*\]) state=new_entry ;;
-        echo "!!LINE: $line"
-        ;;
+      \[[a-z]*\]|[a-z_-]*=*)
+        if [ -n "${field}" ]; then
+          if [ "${service}" = "settings-daemon" ]; then
+            eval "SETTINGS_DAEMON_${field}=\$value"
+          fi
+          case "${field}" in
+            NAME)
+              service_name="${value}"
+              ;;
+            TYPE)
+              service_type="${value}"
+              ;;
+            FILES)
+              echo "Files: $value"
+              service_files="${service_files}${value},"
+              ;;
+            *)
+              service_config="${service_config}${field}=${value} "
+              ;;
+          esac
+        fi
+        if [ -n "$service" ]; then
+          settings_daemon_plan "$service_name" "$service_type" "$service_config" "$service_files"
+        fi
+      ;;
     esac
-
-    if [ -n "${field}" ]; then
-              if [ "${service}" = "settings-daemon" ]; then
-                eval "SETTINGS_DAEMON_${field}=\$value"
-              fi
-              case "${field}" in
-                NAME)
-                  service_name="${value}"
-                  ;;
-                TYPE)
-                  service_type="${value}"
-                  ;;
-                FILES)
-                  echo "Files: $value"
-                  service_files="${service_files}${value},"
-                  ;;
-                *)
-                  service_config="${service_config}${field}=${value} "
-                  ;;
-              esac
-            fi
-
-
-    [ -n "$service" ] && settings_daemon_plan "$service_name" "$service_type" "$service_config" "$service_files"
-            service=$(echo "$line" | tr -d '[]')
-            service_name=$service
-            service_type=files
-            service_config=
-            service_files=
 
     case "${line}" in
       \[[a-z]*\])
-
+        service=$(echo "$line" | tr -d '[]')
+        service_name=$service
+        service_type=files
+        service_config=
+        service_files=
         ;;
-      [a-z_-\ ]*=.*)
+      [a-z_-]*=*)
         field=$(echo "$line" | cut -d'=' -f1 | xargs | tr '-' '_' | awk '{ print toupper($0) }')
         value=$(echo "$line" | cut -d'=' -f2 | xargs)
         ;;
@@ -89,13 +84,9 @@ settings_daemon_parse_conf() {
         value="${value}${line}"
         ;;
     esac
-
-
-
-    #echo "L: $line"
   done
 
-  [ -n "$service" ] && settings_daemon_plan "$service_name" "$service_type" "$service_config" "$service_files"
+  exit
 }
 
 settings_daemon_plan() {
