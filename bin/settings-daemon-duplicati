@@ -7,10 +7,4 @@ echo "Starting settings-daemon..."
 config_file=/etc/settings-daemon.toml
 config_file=/etc/settings-daemon.toml
 
-./bin/duc login "http://192.168.144.20:8200/" --password=duplicati
-./bin/duc export --all --output-path=tmp/duplicati
-
-
-
-
 
