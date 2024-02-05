@@ -56,7 +56,10 @@ settings_daemon_parse_conf() {
     case "${line}" in
       \[[a-z]*\])
         if [ -n "$service" ]; then
-          settings_daemon_plan "$service_name" "$service_type" "$service_config" "$service_files"
+          echo "SERVICE ${service_name} ${service_type}"
+          echo "CONFIG ${service_config}"
+          echo "FILES ${service_files}"
+          echo "RUN"
         fi
         service=$(echo "$line" | tr -d '[]')
         service_name=$service
@@ -75,24 +78,4 @@ settings_daemon_parse_conf() {
         ;;
     esac
   done
-
-}
-
-settings_daemon_plan() {
-  local service_name
-  local service_type
-  local service_config
-  local service_files
-
-  service_name=$1
-  service_type=$2
-  service_config=$3
-  service_files=$4
-
-  echo "Service: $service_name - Type: $service_type - Config: $service_config - Files: $service_files" >&2
-
-  echo "SERVICE ${service_name} ${service_type}"
-  echo "CONFIG ${service_config}"
-  echo "FILES ${service_files}"
-  echo "RUN"
 }

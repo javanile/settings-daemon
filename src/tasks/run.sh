@@ -19,20 +19,23 @@ settings_daemon_run() {
   echo "${plan}" | while read -r entry; do
     entry_type=$(echo "${entry}" | cut -d' ' -f1)
     case "${entry_type}" in
-      "SERVICE")
+      SERVICE)
         service_name=$(echo "${entry}" | cut -d' ' -f2)
         service_type=$(echo "${entry}" | cut -d' ' -f3)
         ;;
-      "CONFIG")
-        service_config=$(echo "${entry}" | cut -d' ' -f2)
+      CONFIG)
+        service_config=$(echo "${entry}" | cut -d' ' -f2-)
         ;;
-      "FILES")
-        service_config=$(echo "${entry}" | cut -d' ' -f2)
+      FILES)
+        service_files=$(echo "${entry}" | cut -d' ' -f2-)
+        echo "$service_files"
         ;;
-      "RUN")
+      RUN)
         "settings_daemon_type_${service_type}" "${service_name}" "${service_config}" "${service_files}"
         service_name=
         service_type=
+        service_config=
+        service_files=
         ;;
       *)
         echo "Unknown entry type: ${entry_type}"
