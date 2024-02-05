@@ -2,6 +2,7 @@
 set -e
 
 source src/parse_conf.sh
+source src/types/files.sh
 #source src/process_resource.sh
 source src/tasks/run.sh
 

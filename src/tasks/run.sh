@@ -1,26 +1,27 @@
 
 settings_daemon_run() {
-  settings_daemon_parse_conf "${SETTINGS_DAEMON_CONFIG}"
+  local plan=
+
+  plan=$(settings_daemon_parse_conf "${SETTINGS_DAEMON_CONFIG}")
 
   SETTINGS_DAEMON_BUILD=build
 
   echo "===[ Settings Daemon Plan ]==="
-  echo "${SETTINGS_DAEMON_PLAN}"
+  echo "${plan}"
   echo "--"
 
-  exit
 
   mkdir -p "${SETTINGS_DAEMON_BUILD}"
   mkdir -p "${SETTINGS_DAEMON_BUILD}/packet"
 
   local service_name
-  local service_driver
-  echo "${SETTINGS_DAEMON_PLAN}" | while read -r entry; do
+  local service_type
+  echo "${plan}" | while read -r entry; do
     entry_type=$(echo "${entry}" | cut -d' ' -f1)
     case "${entry_type}" in
       "SERVICE")
         service_name=$(echo "${entry}" | cut -d' ' -f2)
-        service_driver=$(echo "${entry}" | cut -d' ' -f3)
+        service_type=$(echo "${entry}" | cut -d' ' -f3)
         ;;
       "CONFIG")
         service_config=$(echo "${entry}" | cut -d' ' -f2)
@@ -29,9 +30,9 @@ settings_daemon_run() {
         service_config=$(echo "${entry}" | cut -d' ' -f2)
         ;;
       "RUN")
-        "settings_daemon_service_${service_driver}" "${service_name}" "${service_config}" "${service_files}"
+        "settings_daemon_type_${service_type}" "${service_name}" "${service_config}" "${service_files}"
         service_name=
-        service_driver=
+        service_type=
         ;;
       *)
         echo "Unknown entry type: ${entry_type}"
