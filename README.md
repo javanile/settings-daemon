@@ -1,4 +1,4 @@
-# 🔧 Settings Daemon
+# 🔩 Settings Daemon
 
 The optimal solution for backing up machine settings and storing them via email.
 
