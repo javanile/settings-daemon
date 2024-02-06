@@ -1,4 +1,4 @@
-# ⚙ Settings Daemon
+# 🔧 Settings Daemon
 
 Backup machine settings and send it to email
 
